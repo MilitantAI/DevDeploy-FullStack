@@ -7,6 +7,7 @@ const isPublic = createRouteMatcher([
   '/pricing',          // pricing page
   '/sign-in(.*)',      // auth screens
   '/sign-up(.*)',
+  '/legal/(.*)',       // legal pages
 
   // Webhooks and health (must not require a session)
   '/api/webhooks/(.*)',

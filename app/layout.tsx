@@ -16,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {require('./components/Nav').default()}
+          {children}
+        </Providers>
       </body>
     </html>
   )

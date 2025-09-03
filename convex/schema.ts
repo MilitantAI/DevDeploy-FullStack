@@ -32,4 +32,13 @@ export default defineSchema({
     currentPeriodEnd: v.optional(v.number()),
     ts: v.number()
   }).index('by_subject', ['subjectId', 'ts'])
+  ,
+
+  stripeCustomers: defineTable({
+    subjectId: v.string(),
+    customerId: v.string(),
+    createdAt: v.number()
+  })
+    .index('by_subject', ['subjectId'])
+    .index('by_customer', ['customerId'])
 });

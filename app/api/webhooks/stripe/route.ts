@@ -34,6 +34,11 @@ export async function POST(req: Request) {
         if (!subjectId || !subscriptionId) break
 
         const sub = await stripe.subscriptions.retrieve(subscriptionId)
+        // Persist customer mapping ASAP for portal usage
+        if (sub.customer && typeof sub.customer === 'object' ? (sub.customer as any).id : sub.customer) {
+          const customerId = (typeof sub.customer === 'string' ? sub.customer : (sub.customer as any).id) as string
+          await fetchMutation(api.entitlements.upsertStripeCustomer, { subjectId, customerId })
+        }
         const status = normalizeStatus(sub.status)
         const plan = extractPlanTier(sub)
         const periodEndSec = (sub as any).current_period_end ?? (sub as any).currentPeriodEnd
@@ -56,6 +61,11 @@ export async function POST(req: Request) {
         const subjectId = (sub.metadata && sub.metadata['clerkUserId']) || undefined
         // If no explicit metadata, we cannot map reliably without a customer mapping layer.
         if (!subjectId) break
+        // Ensure mapping exists/refreshes
+        if (sub.customer && typeof sub.customer === 'object' ? (sub.customer as any).id : sub.customer) {
+          const customerId = (typeof sub.customer === 'string' ? sub.customer : (sub.customer as any).id) as string
+          await fetchMutation(api.entitlements.upsertStripeCustomer, { subjectId, customerId })
+        }
         const status = normalizeStatus(sub.status)
         const plan = extractPlanTier(sub)
         const periodEndSec = (sub as any).current_period_end ?? (sub as any).currentPeriodEnd

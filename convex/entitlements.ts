@@ -39,4 +39,39 @@ export const myEntitlements = query({
   }
 })
 
+export const upsertStripeCustomer = mutation({
+  args: {
+    subjectId: v.string(),
+    customerId: v.string(),
+  },
+  handler: async (ctx, { subjectId, customerId }) => {
+    const existing = await ctx.db
+      .query('stripeCustomers')
+      .withIndex('by_subject', (q) => q.eq('subjectId', subjectId))
+      .unique()
+      .catch(() => null)
+
+    if (existing) {
+      // Update only if changed
+      if (existing.customerId !== customerId) {
+        await ctx.db.patch(existing._id, { customerId })
+      }
+      return
+    }
+    await ctx.db.insert('stripeCustomers', { subjectId, customerId, createdAt: Date.now() })
+  }
+})
+
+export const getStripeCustomerId = query({
+  args: { subjectId: v.string() },
+  handler: async (ctx, { subjectId }) => {
+    const rec = await ctx.db
+      .query('stripeCustomers')
+      .withIndex('by_subject', (q) => q.eq('subjectId', subjectId))
+      .unique()
+      .catch(() => null)
+    return rec?.customerId ?? null
+  }
+})
+
 
