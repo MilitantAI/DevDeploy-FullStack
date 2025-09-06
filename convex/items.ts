@@ -1,6 +1,6 @@
-import { mutation, query } from './_generated/server'
+import { mutation, query } from './_generated/server.js'
 import { v } from 'convex/values'
-import { addItemSchema } from '../lib/validation'
+import { addItemSchema } from '../lib/validation.js'
 
 
 export const myItems = query({

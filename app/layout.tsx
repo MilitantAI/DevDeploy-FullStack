@@ -2,6 +2,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import Providers from './providers'
+import Nav from './components/Nav'
 
 export const metadata: Metadata = {
   title: 'App',
@@ -17,7 +18,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          {require('./components/Nav').default()}
+          <Nav />
           {children}
         </Providers>
       </body>

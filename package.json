@@ -2,7 +2,7 @@
   "name": "devdeploy-fullstack",
   "version": "1.0.0",
   "description": "",
-  "main": "postcss.config.js",
+  "main": "index.js",
   "directories": {
     "lib": "lib"
   },
@@ -19,7 +19,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@clerk/nextjs": "^6.31.6",
     "@sentry/nextjs": "^10.7.0",
